@@ -1,5 +1,3 @@
-# LinkedIn_Post_Content_Generator
-
 # 🚀 LinkedIn_Post_Content_Generator
 
 A professional tool to generate engaging LinkedIn posts using the power of Azure OpenAI and a modern React frontend. Streamline your content creation workflow, maintain your brand voice, and save time with AI-assisted post generation.
