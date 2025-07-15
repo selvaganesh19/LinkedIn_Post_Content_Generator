@@ -10,17 +10,25 @@ load_dotenv()
 app = Flask(__name__)
 CORS(app)  # Enable CORS for all routes
 
-# Azure OpenAI Configuration
-client = AzureOpenAI(
-    api_key=os.getenv('AZURE_OPENAI_API_KEY'),
-    api_version=os.getenv('AZURE_OPENAI_API_VERSION'),
-    azure_endpoint=os.getenv('AZURE_OPENAI_ENDPOINT'),
-)
-
+# Azure OpenAI Configuration - Initialize after app creation
+def get_openai_client():
+    try:
+        return AzureOpenAI(
+            api_key=os.getenv('AZURE_OPENAI_API_KEY'),
+            api_version=os.getenv('AZURE_OPENAI_API_VERSION'),
+            azure_endpoint=os.getenv('AZURE_OPENAI_ENDPOINT'),
+        )
+    except Exception as e:
+        print(f"Failed to initialize OpenAI client: {e}")
+        return None
 
 @app.route('/generate', methods=['POST'])
 def generate_post():
-    data = request.get_json()  # Get JSON data instead of form data
+    client = get_openai_client()
+    if not client:
+        return jsonify({'error': 'OpenAI client initialization failed'}), 500
+    
+    data = request.get_json()
     topic = data.get('topic')
     tone = data.get('tone', 'Professional')
 
@@ -52,6 +60,5 @@ def generate_post():
         return jsonify({'error': str(e)}), 500
 
 if __name__ == '__main__':
-    # Get port from environment variable (Render provides this)
     port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port, debug=False)
