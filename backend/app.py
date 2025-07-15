@@ -22,27 +22,36 @@ def get_openai_client():
         print(f"Failed to initialize OpenAI client: {e}")
         return None
 
+@app.route('/')
+def index():
+    return jsonify({"message": "LinkedIn Post Generator API", "status": "running"})
+
 @app.route('/generate', methods=['POST'])
 def generate_post():
-    client = get_openai_client()
-    if not client:
-        return jsonify({'error': 'OpenAI client initialization failed'}), 500
-    
-    data = request.get_json()
-    topic = data.get('topic')
-    tone = data.get('tone', 'Professional')
-
-    if not topic:
-        return jsonify({'error': 'Topic is required'}), 400
-
-    prompt = f"Write a {tone.lower()} LinkedIn post about: {topic}"
-
-    messages = [
-        {"role": "system", "content": "You are a professional LinkedIn post writer."},
-        {"role": "user", "content": prompt}
-    ]
-
     try:
+        client = get_openai_client()
+        if not client:
+            return jsonify({'error': 'OpenAI client initialization failed'}), 500
+        
+        data = request.get_json()
+        if not data:
+            return jsonify({'error': 'No JSON data provided'}), 400
+            
+        topic = data.get('topic')
+        tone = data.get('tone', 'Professional')
+
+        if not topic:
+            return jsonify({'error': 'Topic is required'}), 400
+
+        print(f"Generating post for topic: {topic}, tone: {tone}")
+
+        prompt = f"Write a {tone.lower()} LinkedIn post about: {topic}"
+
+        messages = [
+            {"role": "system", "content": "You are a professional LinkedIn post writer."},
+            {"role": "user", "content": prompt}
+        ]
+
         response = client.chat.completions.create(
             model=os.getenv('AZURE_OPENAI_DEPLOYMENT'),
             messages=messages,
@@ -54,11 +63,13 @@ def generate_post():
         )
 
         post_content = response.choices[0].message.content
+        print(f"Generated post successfully")
         return jsonify({'post': post_content})
+        
     except Exception as e:
-        print(f"Error: {str(e)}")
+        print(f"Error in generate_post: {str(e)}")
         return jsonify({'error': str(e)}), 500
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
-    app.run(host='0.0.0.0', port=port, debug=False)
+    app.run(host='0.0.0.0', port=port, debug=True)
