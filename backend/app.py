@@ -17,16 +17,12 @@ client = AzureOpenAI(
     azure_endpoint=os.getenv('AZURE_OPENAI_ENDPOINT'),
 )
 
-@app.route('/')
-def index():
-    return render_template('index.html')
 
 @app.route('/generate', methods=['POST'])
 def generate_post():
     data = request.get_json()  # Get JSON data instead of form data
     topic = data.get('topic')
     tone = data.get('tone', 'Professional')
-    print(f"Topic: {topic}, Tone: {tone}")
 
     if not topic:
         return jsonify({'error': 'Topic is required'}), 400
@@ -50,7 +46,6 @@ def generate_post():
         )
 
         post_content = response.choices[0].message.content
-        print(f"Generated post: {post_content}")
         return jsonify({'post': post_content})
     except Exception as e:
         print(f"Error: {str(e)}")
