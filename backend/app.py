@@ -33,10 +33,9 @@ def generate_post():
         if not client:
             return jsonify({'error': 'OpenAI client initialization failed'}), 500
         
-        data = request.get_json()
-        if not data:
-            return jsonify({'error': 'No JSON data provided'}), 400
-            
+        data = request.get_json(force=True)  # force parsing
+        print(f"Received data: {data}")
+
         topic = data.get('topic')
         tone = data.get('tone', 'Professional')
 
@@ -55,7 +54,7 @@ def generate_post():
         response = client.chat.completions.create(
             model=os.getenv('AZURE_OPENAI_DEPLOYMENT'),
             messages=messages,
-            max_tokens=5000,
+            max_tokens=500,
             temperature=0.9,
             top_p=1,
             frequency_penalty=0,
@@ -63,12 +62,13 @@ def generate_post():
         )
 
         post_content = response.choices[0].message.content
-        print(f"Generated post successfully")
+        print("Generated post successfully")
         return jsonify({'post': post_content})
-        
+
     except Exception as e:
-        print(f"Error in generate_post: {str(e)}")
-        return jsonify({'error': str(e)}), 500
+        print(f"[ERROR] Exception in /generate: {str(e)}")
+        return jsonify({'error': 'Internal Server Error', 'details': str(e)}), 500
+
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
