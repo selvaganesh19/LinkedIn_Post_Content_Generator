@@ -6,7 +6,7 @@ A professional tool to generate engaging LinkedIn posts using the power of Azure
 
 ## 📖 Introduction
 
-**LinkedIn_Post_Content_Generator** is a web application designed to help professionals, marketers, and businesses generate high-quality LinkedIn posts in seconds. Leveraging Azure OpenAI's advanced language models and a sleek, responsive frontend built with React and Radix UI, this tool makes social media content creation effortless and consistent.
+**LinkedIn_Post_Content_Generator** is a web application designed to help professionals, marketers, and businesses generate high-quality LinkedIn posts in seconds. Leveraging Azure OpenAI's advanced language models and a sleek, responsive frontend built with React and Radix UI, this tool makes the social media content creation effortless and consistent.
 
 ---
 
