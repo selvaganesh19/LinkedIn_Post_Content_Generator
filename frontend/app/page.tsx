@@ -32,7 +32,7 @@ export default function LinkedInPostGenerator() {
     setIsGenerating(true)
     try {
       console.log("Generating post with:", { topic, tone })
-      const response = await fetch("https://linkedinpost-z0j1.onrender.com", {
+      const response = await fetch("https://linkedinpost-z0j1.onrender.com/generate", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
