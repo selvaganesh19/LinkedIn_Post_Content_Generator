@@ -17,7 +17,7 @@ A professional tool to generate engaging LinkedIn posts using the power of Azure
 - ⚡ **Instant Feedback:** Get fast results and fine-tune your posts before publishing.
 - 🛡️ **Secure & Configurable:** Environment variables and CORS support for secure deployments.
 - 🔧 **Easy Theming:** Customizable themes with support for dark mode.
-- 🧩 **Component-based Architecture:** Reusable, extensible React components for rapid customizations.
+- 🧩 **Component-based Architecture:** Reusable, extensible React components for rapid customization.
 
 ---
 
