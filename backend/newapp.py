@@ -80,7 +80,6 @@ def fetch_repo_files(repo_url):
         print(f"[ERROR] Failed to fetch repo files: {e}")
         return None
 
-
 def generate_post(topic, tone="Professional"):
     try:
         client = get_openai_client()
