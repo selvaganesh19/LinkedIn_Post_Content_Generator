@@ -26,7 +26,7 @@ A professional tool to generate engaging LinkedIn posts using the power of Azure
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/your-username/LinkedIn_Post_Content_Generator.git
+git clone https://github.com/selvaganesh19/LinkedIn_Post_Content_Generator.git
 cd LinkedIn_Post_Content_Generator
 ```
 
